@@ -5,7 +5,7 @@ Description: Plugin for white labelling WordPress branding
 Plugin URI: https://github.com/jihan007/custom-branding
 Author: Jihan Ahmed
 Author URI: http://www.wpunmarked.com
-Version: 1.0.2
+Version: 1.0.4
 */
 
 if( ! class_exists( 'Smashing_Updater' ) ){
@@ -21,7 +21,7 @@ $updater->set_repository( 'custom-branding' );
 $updater->initialize();
 
 // Start Main Plugin
-class Smashing_Fields_Plugin {
+class Custom_Branding_Plugin {
 
     public function __construct() {
     	// Hook into the admin menu
@@ -37,9 +37,9 @@ class Smashing_Fields_Plugin {
     	$page_title = 'Custom Branding Settings';
     	$menu_title = 'Custom Branding';
     	$capability = 'manage_options';
-    	$slug = 'smashing_fields';
+    	$slug = 'custom_branding_fields';
     	$callback = array( $this, 'plugin_settings_page_content' );
-    	$icon = 'dashicons-admin-plugins';
+    	$icon = 'dashicons-align-left';
     	$position = 100;
 
     	add_menu_page( $page_title, $menu_title, $capability, $slug, $callback, $icon, $position );
@@ -53,8 +53,8 @@ class Smashing_Fields_Plugin {
             } ?>
     		<form method="POST" action="options.php">
                 <?php
-                    settings_fields( 'smashing_fields' );
-                    do_settings_sections( 'smashing_fields' );
+                    settings_fields( 'custom_branding_fields' );
+                    do_settings_sections( 'custom_branding_fields' );
                     submit_button();
                 ?>
     		</form>
@@ -68,7 +68,7 @@ class Smashing_Fields_Plugin {
     }
 
     public function setup_sections() {
-        add_settings_section( 'our_first_section', 'WP Login Logo URL', array( $this, 'section_callback' ), 'smashing_fields' );
+        add_settings_section( 'our_first_section', 'WP Login Logo URL', array( $this, 'section_callback' ), 'custom_branding_fields' );
     }
 
     public function section_callback( $arguments ) {
@@ -93,8 +93,8 @@ class Smashing_Fields_Plugin {
         );
     	foreach( $fields as $field ){
 
-        	add_settings_field( $field['uid'], $field['label'], array( $this, 'field_callback' ), 'smashing_fields', $field['section'], $field );
-            register_setting( 'smashing_fields', $field['uid'] );
+        	add_settings_field( $field['uid'], $field['label'], array( $this, 'field_callback' ), 'custom_branding_fields', $field['section'], $field );
+            register_setting( 'custom_branding_fields', $field['uid'] );
     	}
     }
 
@@ -123,11 +123,11 @@ class Smashing_Fields_Plugin {
     }
 	
 }
-new Smashing_Fields_Plugin();
+new Custom_Branding_Plugin();
 
 //Register the stylesheets for the admin area.
 function load_custom_wp_admin_style($hook) {
-        if($hook != 'toplevel_page_smashing_fields') {
+        if($hook != 'toplevel_page_custom_branding_fields') {
                 return;
         }
         wp_enqueue_style( 'custom_wp_admin_css', plugins_url('css/admin-style.css', __FILE__) );
@@ -163,7 +163,7 @@ add_filter( 'login_headertitle', 'custom_branding_login_logo_url_title' );
 
 
 // Remove menu page from admin panel
-//add_action( 'admin_menu', 'cb_remove_admin_menus' );
+add_action( 'admin_menu', 'cb_remove_admin_menus' );
 function cb_remove_admin_menus() {
     // don't do anything if the user can publish posts
     if ( current_user_can( 'manage_network' ) ) {
@@ -179,7 +179,7 @@ function cb_remove_admin_menus() {
 }
 
 // Restrict page access to certain admin menus
-//add_action( 'current_screen', 'tcd_restrict_admin_pages' );
+add_action( 'current_screen', 'tcd_restrict_admin_pages' );
 function tcd_restrict_admin_pages() {
     // don't do anything if the user can publish posts
     if ( current_user_can( 'manage_network' ) ) {
@@ -192,7 +192,6 @@ function tcd_restrict_admin_pages() {
         'users',
 		'user-new',
 		'profile',
-        'upload',
         'tools',
 		'import',
 		'export',
@@ -203,7 +202,7 @@ function tcd_restrict_admin_pages() {
 		'options-discussion',
 		'options-media',
 		'options-permalink',
-		'update-core',
+		//'update-core',
     );
 
     // Restrict page access
@@ -213,13 +212,7 @@ function tcd_restrict_admin_pages() {
         if ( $current_screen_id === $restricted_screen ) {
             wp_die( __( 'You are not allowed to access this page.', 'tcd' ) );
         }
-
     }
-
 }
-
-
-
-
 
 ?>
