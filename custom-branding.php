@@ -5,7 +5,7 @@ Description: Plugin for white labelling WordPress branding
 Plugin URI: https://github.com/jihan007/custom-branding
 Author: Jihan Ahmed
 Author URI: http://www.wpunmarked.com
-Version: 1.0.1
+Version: 1.0.2
 */
 
 if( ! class_exists( 'Smashing_Updater' ) ){
@@ -179,7 +179,7 @@ function cb_remove_admin_menus() {
 }
 
 // Restrict page access to certain admin menus
-add_action( 'current_screen', 'tcd_restrict_admin_pages' );
+//add_action( 'current_screen', 'tcd_restrict_admin_pages' );
 function tcd_restrict_admin_pages() {
     // don't do anything if the user can publish posts
     if ( current_user_can( 'manage_network' ) ) {
