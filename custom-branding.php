@@ -171,7 +171,7 @@ function cb_remove_admin_menus() {
     }
     // remove these items from the admin menu
     remove_menu_page( 'users.php' );          // Posts
-    remove_menu_page( 'index.php' );        // Media
+    remove_menu_page( 'index.php' );        // Dashboard
     remove_menu_page( 'tools.php' );         // Tools
     remove_menu_page( 'edit-comments.php' ); // Comments
 	remove_menu_page( 'options-general.php' ); // Settings
@@ -179,9 +179,9 @@ function cb_remove_admin_menus() {
 }
 
 // Restrict page access to certain admin menus
-add_action( 'current_screen', 'tcd_restrict_admin_pages' );
-function tcd_restrict_admin_pages() {
-    // don't do anything if the user can publish posts
+add_action( 'current_screen', 'cb_restrict_admin_pages' );
+function cb_restrict_admin_pages() {
+    // don't do anything if the user can
     if ( current_user_can( 'manage_network' ) ) {
         return;
     }
@@ -210,7 +210,7 @@ function tcd_restrict_admin_pages() {
 
         // compare current screen id against each restricted screen
         if ( $current_screen_id === $restricted_screen ) {
-            wp_die( __( 'You are not allowed to access this page.', 'tcd' ) );
+            wp_die( __( 'You are not allowed to access this page.', 'custom-branding' ) );
         }
     }
 }
