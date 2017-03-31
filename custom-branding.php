@@ -2,9 +2,10 @@
 /*
 Plugin Name: Custom Branding
 Description: Plugin for white labelling WordPress branding
+Plugin URI: https://github.com/jihan007/custom-branding
 Author: Jihan Ahmed
 Author URI: http://www.wpunmarked.com
-Version: 1.0.0
+Version: 1.0.1
 */
 
 if( ! class_exists( 'Smashing_Updater' ) ){
